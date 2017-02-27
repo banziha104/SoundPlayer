@@ -17,6 +17,8 @@ import android.view.View;
 
 import com.veryworks.android.soundplayer.util.fragment.PagerAdapter;
 
+import static com.veryworks.android.soundplayer.R.id.tab;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -50,7 +52,10 @@ public class MainActivity extends AppCompatActivity
 
         // 컨텐트영역
         // 1. 탭 레이아웃
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab);
+        TabLayout tabLayout = (TabLayout) findViewById(tab);
+        // tabLayout.setTabMode(TabLayout.MODE_FIXED); // Default
+        // tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE); // 가로축 스크롤하기
+
         // 탭 생성 및 타이틀 입력
         tabLayout.addTab( tabLayout.newTab().setText("Title") );
         tabLayout.addTab( tabLayout.newTab().setText("Artist") );
