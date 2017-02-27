@@ -15,6 +15,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.veryworks.android.soundplayer.util.fragment.PagerAdapter;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -57,6 +59,26 @@ public class MainActivity extends AppCompatActivity
         // 2. 뷰페이저
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
         // 아답터 설정 필요
+        PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager());
+        // 프래그먼트 생성
+        OneFragment one = new OneFragment();
+        TwoFragment two = new TwoFragment();
+        ThreeFragment three = new ThreeFragment();
+        FourFragment four = new FourFragment();
+        // 아답터에 프래그먼트 추가
+        adapter.add(one);
+        adapter.add(two);
+        adapter.add(three);
+        adapter.add(four);
+
+        viewPager.setAdapter(adapter);
+
+        // 1. 페이저 리스너 : 페이저가 변경되었을때 탭을 바꿔주는 리스너
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+
+        // 2. 탭 리스너 : 탭이 변경되었을 때 페이지를 바꿔저는 리스너
+        tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager));
+
     }
 
     @Override
