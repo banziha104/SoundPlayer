@@ -60,16 +60,11 @@ public class MainActivity extends AppCompatActivity
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
         // 아답터 설정 필요
         PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager());
-        // 프래그먼트 생성
-        OneFragment one = new OneFragment();
-        TwoFragment two = new TwoFragment();
-        ThreeFragment three = new ThreeFragment();
-        FourFragment four = new FourFragment();
         // 아답터에 프래그먼트 추가
-        adapter.add(one);
-        adapter.add(two);
-        adapter.add(three);
-        adapter.add(four);
+        adapter.add(new OneFragment());
+        adapter.add(new TwoFragment());
+        adapter.add(new ThreeFragment());
+        adapter.add(new FourFragment());
 
         viewPager.setAdapter(adapter);
 
