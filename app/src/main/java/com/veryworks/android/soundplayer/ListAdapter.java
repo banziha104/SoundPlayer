@@ -1,6 +1,7 @@
 package com.veryworks.android.soundplayer;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -49,13 +50,13 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
     public void onBindViewHolder(final ViewHolder holder, int position) {
 
         Common common = (Common) datas.get(position);
+        holder.position = position;
 
         Glide.with(context)
                 .load(common.getImageUri())
                 // 이미지가 없을 경우 대체 이미지
                 .placeholder(android.R.drawable.ic_menu_close_clear_cancel)
                 .into(holder.imageView);
-
         holder.textTitle.setText(common.getTitle());
         holder.textArtist.setText(common.getArtist());
 
@@ -68,13 +69,6 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
             case ListFragment.TYPE_ARTIST:
                 break;
         }
-
-        holder.box.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
     }
 
     @Override
@@ -100,6 +94,14 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
             switch(flag){
                 case ListFragment.TYPE_SONG:
                     textDuration = (TextView) view.findViewById(R.id.textDuration);
+                    box.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(context, PlayerActivity.class);
+                            intent.putExtra("position", position);
+                            context.startActivity(intent);
+                        }
+                    });
                     break;
                 default :
                     // nothing
