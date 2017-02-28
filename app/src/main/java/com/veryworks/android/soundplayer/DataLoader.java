@@ -62,7 +62,9 @@ public class DataLoader {
                 sound.album_id = getInt(cursor, PROJ[1]);
                 sound.title = getString(cursor, PROJ[2]);
                 sound.artist = getString(cursor, PROJ[3]);
-                sound.album_image_uri = getMusicUri(sound.id);
+
+                sound.music_uri = getMusicUri(sound.id);
+                sound.album_image_uri = getAlbumImageSimple(sound.album_id);
 
                 datas.add(sound);
             }
@@ -94,7 +96,7 @@ public class DataLoader {
     }
 
     // 앨범 Uri 생성
-//    private static Uri getAlbumImageSimple(String album_id){
-//        return Uri.parse("content://media/external/audio/albumart/" + album_id);
-//    }
+    private static Uri getAlbumImageSimple(int album_id){
+        return Uri.parse("content://media/external/audio/albumart/" + album_id);
+    }
 }

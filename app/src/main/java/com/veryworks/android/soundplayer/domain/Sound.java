@@ -10,11 +10,12 @@ public class Sound {
 
     // sound info.
     public int id;
+    public Uri music_uri;
     public String title;
     public String artist;
     public int album_id;
-    public int genre_id;
     public Uri album_image_uri;
+    public int genre_id;
     public int duration;
     public boolean is_music;
     public String composer;
