@@ -70,8 +70,8 @@ public class MainActivity extends AppCompatActivity
         // 아답터 설정 필요
         PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager());
         // 아답터에 프래그먼트 추가
-        adapter.add(new OneFragment());
-        adapter.add(new TwoFragment());
+        adapter.add(ListFragment.newInstance(1, ListFragment.TYPE_SONG));
+        adapter.add(ListFragment.newInstance(2, ListFragment.TYPE_ARTIST));
         adapter.add(new ThreeFragment());
         adapter.add(new FourFragment());
 
