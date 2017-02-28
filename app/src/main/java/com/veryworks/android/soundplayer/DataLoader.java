@@ -20,6 +20,7 @@ public class DataLoader {
 
     // datas 를 두개의 activity에서 공유하기 위해 static 형태로 변경
     private static List<Sound> soundDatas = new ArrayList<>();
+
     private static List<Artist> artistDatas = new ArrayList<>();
 
 
@@ -125,12 +126,34 @@ public class DataLoader {
                 artist.number_of_albums = getInt(cursor, PROJ[3]);
                 artist.number_of_tracks = getInt(cursor, PROJ[4]);
 
+                artist.album_id = getAlbumIdByArtistId(artist.id);
+                artist.album_image_uri = getAlbumUriByArtistId(artist.id);
+
                 artistDatas.add(artist);
             }
             // 처리 후 커서를 닫아준다
             cursor.close();
         }
     }
+
+    public static int getAlbumIdByArtistId(int artist_id){
+        for(Sound sound : soundDatas){
+            if(sound.artist_id == artist_id){
+                return sound.album_id;
+            }
+        }
+        return -1;
+    }
+
+    public static Uri getAlbumUriByArtistId(int artist_id){
+        for(Sound sound : soundDatas){
+            if(sound.artist_id == artist_id){
+                return sound.album_image_uri;
+            }
+        }
+        return null;
+    }
+
 
     private static String getGenre(){
         // MediaStore.Audio.Genres.getContentUriForAudioId();

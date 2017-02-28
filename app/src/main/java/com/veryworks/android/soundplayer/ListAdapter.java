@@ -1,5 +1,6 @@
 package com.veryworks.android.soundplayer;
 
+import android.content.Context;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.veryworks.android.soundplayer.domain.Common;
 
 import java.util.List;
@@ -17,8 +19,10 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
     private List<?> datas;
     private String flag;
     private int item_layout_id;
+    private Context context;
 
-    public ListAdapter(List<?> datas, String flag) {
+    public ListAdapter(Context context, List<?> datas, String flag) {
+        this.context = context;
         this.datas = datas;
         this.flag = flag;
         switch(flag){
@@ -47,9 +51,24 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
         Common common = (Common) datas.get(position);
 
         holder.imageView.setImageURI(common.getImageUri());
+        Glide.with(context)
+                .load(common.getImageUri())
+                // 이미지가 없을 경우 대체 이미지
+                .placeholder(android.R.drawable.ic_menu_close_clear_cancel)
+                .into(holder.imageView);
+
         holder.textTitle.setText(common.getTitle());
         holder.textArtist.setText(common.getArtist());
-        holder.textDuration.setText(common.getDuration());
+
+        switch(flag){
+            case ListFragment.TYPE_SONG:
+                holder.textDuration.setText(common.getDuration());
+                break;
+            case ListFragment.TYPE_ALBUM:
+            case ListFragment.TYPE_GENRE:
+            case ListFragment.TYPE_ARTIST:
+                break;
+        }
 
         holder.box.setOnClickListener(new View.OnClickListener() {
             @Override

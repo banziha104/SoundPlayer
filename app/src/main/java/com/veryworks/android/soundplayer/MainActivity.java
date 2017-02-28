@@ -1,6 +1,8 @@
 package com.veryworks.android.soundplayer;
 
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -22,12 +24,19 @@ import static com.veryworks.android.soundplayer.R.id.tab;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private final int REQ_PERMISSION = 100; // 권한요청코드
+
     ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        checkPermission();
+    }
+
+    private void init(){
 
         // 화면의 툴바 가져오기
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -156,5 +165,28 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    // 권한관리
+    private void checkPermission() {
+        if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ) {
+            if( PermissionControl.checkPermission(this, REQ_PERMISSION) ){
+                init();
+            }
+        }else{
+            init();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode == REQ_PERMISSION){
+            if( PermissionControl.onCheckResult(grantResults)){
+                init();
+            }else{
+                Toast.makeText(this, "권한을 허용하지 않으시면 프로그램을 실행할 수 없습니다.", Toast.LENGTH_LONG).show();
+            }
+        }
     }
 }
