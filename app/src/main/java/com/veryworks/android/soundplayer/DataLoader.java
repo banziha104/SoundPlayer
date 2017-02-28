@@ -55,7 +55,6 @@ public class DataLoader {
                 MediaStore.Audio.Media.ARTIST_KEY,
                 MediaStore.Audio.Media.DURATION,
                 MediaStore.Audio.Media.IS_MUSIC,
-                MediaStore.Audio.Media.CONTENT_TYPE,
                 MediaStore.Audio.Media.COMPOSER,
                 MediaStore.Audio.Media.YEAR,
         };
@@ -79,9 +78,8 @@ public class DataLoader {
                 sound.artist_key   = getString(cursor, PROJ[5]);
                 sound.duration     = getInt(   cursor, PROJ[6]);
                 sound.is_music     = getString(cursor, PROJ[7]);
-                sound.content_type = getString(cursor, PROJ[8]);
-                sound.composer     = getString(cursor, PROJ[9]);
-                sound.year         = getString(cursor, PROJ[10]);
+                sound.composer     = getString(cursor, PROJ[8]);
+                sound.year         = getString(cursor, PROJ[9]);
 
                 sound.music_uri       = getMusicUri(sound.id);
                 sound.album_image_uri = getAlbumImageSimple(sound.album_id);

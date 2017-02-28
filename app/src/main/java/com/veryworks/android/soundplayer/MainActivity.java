@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity
         PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager());
         // 아답터에 프래그먼트 추가
         adapter.add(ListFragment.newInstance(1, ListFragment.TYPE_SONG));
-        adapter.add(ListFragment.newInstance(2, ListFragment.TYPE_ARTIST));
+        adapter.add(ListFragment.newInstance(3, ListFragment.TYPE_ARTIST));
         adapter.add(new ThreeFragment());
         adapter.add(new FourFragment());
 
