@@ -50,7 +50,6 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 
         Common common = (Common) datas.get(position);
 
-        holder.imageView.setImageURI(common.getImageUri());
         Glide.with(context)
                 .load(common.getImageUri())
                 // 이미지가 없을 경우 대체 이미지
