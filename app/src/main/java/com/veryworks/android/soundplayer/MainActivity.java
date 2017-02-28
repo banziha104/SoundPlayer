@@ -59,7 +59,9 @@ public class MainActivity extends AppCompatActivity
         // tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE); // 가로축 스크롤하기
 
         // 탭 생성 및 타이틀 입력
-        tabLayout.addTab( tabLayout.newTab().setText( getResources().getString(R.string.menu_title)) );
+        tabLayout.addTab( tabLayout.newTab().setText(
+                getResources().getString( R.string.menu_title )) // "Title" -> values/strings.xml > 값을 세팅
+        );
         tabLayout.addTab( tabLayout.newTab().setText( getResources().getString(R.string.menu_artist)) );
         tabLayout.addTab( tabLayout.newTab().setText( getResources().getString(R.string.menu_album)) );
         tabLayout.addTab( tabLayout.newTab().setText( getResources().getString(R.string.menu_genre)) );
