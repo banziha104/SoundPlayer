@@ -76,6 +76,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
         return datas.size();
     }
 
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         public int position;
         ImageView imageView;
