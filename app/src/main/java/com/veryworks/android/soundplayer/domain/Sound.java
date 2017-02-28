@@ -6,7 +6,7 @@ import android.net.Uri;
  * Created by pc on 2/28/2017.
  */
 
-public class Sound {
+public class Sound extends Common{
 
     // sound info.
     public int id;
@@ -27,4 +27,24 @@ public class Sound {
     // add info.
     public int order;
     public boolean favor;
+
+    @Override
+    public String getTitle() {
+        return title;
+    }
+
+    @Override
+    public String getArtist() {
+        return artist;
+    }
+
+    @Override
+    public String getDuration() {
+        return duration + "";
+    }
+
+    @Override
+    public Uri getImageUri() {
+        return album_image_uri;
+    }
 }

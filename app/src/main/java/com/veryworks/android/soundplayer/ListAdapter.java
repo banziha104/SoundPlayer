@@ -1,11 +1,14 @@
 package com.veryworks.android.soundplayer;
 
-import android.net.Uri;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.veryworks.android.soundplayer.domain.Common;
 
 import java.util.List;
 
@@ -22,8 +25,10 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
             case ListFragment.TYPE_SONG:
                 item_layout_id = R.layout.list_fragment_item;
                 break;
+            case ListFragment.TYPE_ALBUM:
+            case ListFragment.TYPE_GENRE:
             case ListFragment.TYPE_ARTIST:
-                item_layout_id = R.layout.list_fragment_item;
+                item_layout_id = R.layout.list_fragment_item_album;
                 break;
         }
 
@@ -38,11 +43,15 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
 
-        holder.mView.setOnClickListener(new View.OnClickListener() {
+        Common common = (Common) datas.get(position);
+
+        holder.imageView.setImageURI(common.getImageUri());
+        holder.textTitle.setText(common.getTitle());
+        holder.textArtist.setText(common.getArtist());
+        holder.textDuration.setText(common.getDuration());
+
+        holder.box.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -56,27 +65,28 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public int id;
-        public int artist_id;
-        public String title;
-        public String artist;
-        public String artist_key;
-        public int album_id;
-
-        public Uri music_uri;
-        public Uri album_image_uri;
+        public int position;
+        ImageView imageView;
+        TextView textTitle;
+        TextView textArtist;
+        TextView textDuration;
+        ConstraintLayout box;
 
         public ViewHolder(View view) {
             super(view);
 
-            mView = view;
-            mIdView = (TextView) view.findViewById(R.id.id);
-            mContentView = (TextView) view.findViewById(R.id.content);
-        }
-
-        @Override
-        public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            box = (ConstraintLayout) view.findViewById(R.id.list_item);
+            imageView = (ImageView) view.findViewById(R.id.imageView);
+            textTitle = (TextView) view.findViewById(R.id.textTitle);
+            textArtist = (TextView) view.findViewById(R.id.textArtist);
+            switch(flag){
+                case ListFragment.TYPE_SONG:
+                    textDuration = (TextView) view.findViewById(R.id.textDuration);
+                    break;
+                default :
+                    // nothing
+                    break;
+            }
         }
     }
 }

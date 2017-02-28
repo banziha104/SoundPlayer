@@ -19,6 +19,8 @@ public class ListFragment extends Fragment {
 
     public static final String TYPE_SONG = "SONG";
     public static final String TYPE_ARTIST = "ARTIST";
+    public static final String TYPE_ALBUM = "ALBUM";
+    public static final String TYPE_GENRE = "GENRE";
 
     private int mColumnCount = 1;
     private String mListType = "";
