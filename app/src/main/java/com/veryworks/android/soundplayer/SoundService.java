@@ -40,13 +40,15 @@ public class SoundService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         if(intent != null) {
-            listType = intent.getExtras().getString(ListFragment.ARG_LIST_TYPE);
-            position = intent.getExtras().getInt(ListFragment.ARG_POSITION);
+            if(intent.getExtras() != null) {
+                listType = intent.getExtras().getString(ListFragment.ARG_LIST_TYPE);
+                position = intent.getExtras().getInt(ListFragment.ARG_POSITION);
+                if(mMediaPlayer == null) {
+                    initMedia();
+                }
+            }
         }
 
-        if(mMediaPlayer == null) {
-            initMedia();
-        }
         handleAction(intent);
         return super.onStartCommand(intent, flags, startId);
     }
@@ -122,10 +124,10 @@ public class SoundService extends Service {
                 .setContentText( "Crush" );
 
         // 퍼즈일 경우만 노티 삭제 가능
-        if(ACTION_PAUSE.equals(action_flag)) {
+        //if(ACTION_PAUSE.equals(action_flag)) {
             builder.setDeleteIntent(pendingIntent);
             builder.setOngoing(true);
-        }
+        //}
 
         builder.addAction(generateAction(android.R.drawable.ic_media_previous, "Previous", ACTION_PREVIOUS));
         builder.addAction(action);
