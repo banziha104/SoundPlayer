@@ -20,6 +20,8 @@ import static android.app.PendingIntent.getService;
 public class SoundService extends Service {
     private static final String TAG = "SoundService";
 
+    private static final int NOTIFICATION_ID = 1;
+
     public static final String ACTION_PLAY = "action_play";
     public static final String ACTION_PAUSE = "action_pause";
     public static final String ACTION_NEXT = "action_next";
@@ -95,7 +97,7 @@ public class SoundService extends Service {
         } else if( action.equalsIgnoreCase( ACTION_NEXT ) ) {
 
         } else if( action.equalsIgnoreCase( ACTION_STOP ) ) {
-
+            playerStop();
         }
     }
 
@@ -103,7 +105,7 @@ public class SoundService extends Service {
     private NotificationCompat.Action generateAction(int icon, String title, String intentAction ) {
         Intent intent = new Intent( getApplicationContext(), SoundService.class );
         intent.setAction( intentAction );
-        // PendingIntent : 실행 대상이 되는 인텐트를 지연시키는 역할
+        // PendingIntent : 인텐트를 서비스 밖에서 실행시킬 수 있도록 담아두는 주머니
         PendingIntent pendingIntent = getService(getApplicationContext(), 1, intent, 0);
 
         return new NotificationCompat.Action.Builder(icon, title, pendingIntent).build();
@@ -137,12 +139,23 @@ public class SoundService extends Service {
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         // 노티바를 화면에 보여준다
-        notificationManager.notify(1, builder.build());
+        notificationManager.notify(NOTIFICATION_ID , builder.build());
     }
 
     private void playerStart(){
         // 노티피케이션 바 생성
         buildNotification( generateAction( android.R.drawable.ic_media_pause, "Pause", ACTION_PAUSE ), ACTION_PAUSE );
         mMediaPlayer.start();
+    }
+
+    private void playerStop(){
+        if(mMediaPlayer != null) {
+            mMediaPlayer.release();
+            mMediaPlayer = null;
+        }
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.cancel( NOTIFICATION_ID );
+        Intent intent = new Intent( getApplicationContext(), SoundService.class );
+        stopService( intent );
     }
 }
