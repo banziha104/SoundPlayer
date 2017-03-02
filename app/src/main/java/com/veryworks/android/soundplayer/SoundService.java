@@ -104,32 +104,34 @@ public class SoundService extends Service {
         Intent intent = new Intent( getApplicationContext(), SoundService.class );
         intent.setAction( intentAction );
         // PendingIntent : 실행 대상이 되는 인텐트를 지연시키는 역할
-        PendingIntent pendingIntent = PendingIntent.getService(getApplicationContext(), 1, intent, 0);
+        PendingIntent pendingIntent = getService(getApplicationContext(), 1, intent, 0);
 
         return new NotificationCompat.Action.Builder(icon, title, pendingIntent).build();
     }
 
     // 노티바를 생성하는 함수
     private void buildNotification( NotificationCompat.Action action , String action_flag) {
-        // 노티바 전체를 클릭했을 때 실행되는 메인 intent
-        Intent intent = new Intent( getApplicationContext(), SoundService.class );
-        intent.setAction( ACTION_STOP );
-        PendingIntent pendingIntent = getService(getApplicationContext(), 1, intent, 0);
+        Sound sound = datas.get(position);
+
+        // Stop intent
+        Intent intentStop = new Intent( getApplicationContext(), SoundService.class );
+        intentStop.setAction( ACTION_STOP );
+        PendingIntent stopIntent = getService(getApplicationContext(), 1, intentStop, 0);
 
         // 노티바 생성
         NotificationCompat.Builder builder = new NotificationCompat.Builder( this );
 
         builder.setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle( "Beautiful" )
-                .setContentText( "Crush" );
+                .setContentTitle( sound.getTitle() )
+                .setContentText( sound.getArtist() );
 
         // 퍼즈일 경우만 노티 삭제 가능
-        //if(ACTION_PAUSE.equals(action_flag)) {
-            builder.setDeleteIntent(pendingIntent);
-            builder.setOngoing(true);
-        //}
+//        if(ACTION_PAUSE.equals(action_flag)) {
+        builder.setDeleteIntent(stopIntent);
+        builder.setOngoing(false);
+//        }
 
-        builder.addAction(generateAction(android.R.drawable.ic_media_previous, "Previous", ACTION_PREVIOUS));
+        builder.addAction(generateAction(android.R.drawable.ic_media_previous, "Prev", ACTION_PREVIOUS));
         builder.addAction(action);
         builder.addAction(generateAction(android.R.drawable.ic_media_next, "Next", ACTION_NEXT));
 
