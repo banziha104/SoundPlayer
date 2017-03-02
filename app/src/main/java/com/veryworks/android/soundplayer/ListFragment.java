@@ -15,7 +15,8 @@ import java.util.List;
 public class ListFragment extends Fragment {
 
     private static final String ARG_COLUMN_COUNT = "column-count";
-    private static final String ARG_LIST_TYPE = "list-type";
+    public static final String ARG_LIST_TYPE = "list-type";
+    public static final String ARG_POSITION = "position";
 
     public static final String TYPE_SONG = "SONG";
     public static final String TYPE_ARTIST = "ARTIST";
@@ -31,13 +32,13 @@ public class ListFragment extends Fragment {
 
     }
 
-    public static ListFragment newInstance(int columnCount, String flag) {
+    public static ListFragment newInstance(int columnCount, String listType) {
 
         Bundle args = new Bundle();
         ListFragment fragment = new ListFragment();
 
         args.putInt(ARG_COLUMN_COUNT, columnCount);
-        args.putString(ARG_LIST_TYPE, flag);
+        args.putString(ARG_LIST_TYPE, listType);
         fragment.setArguments(args);
         return fragment;
 

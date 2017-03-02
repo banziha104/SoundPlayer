@@ -99,7 +99,8 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
                         @Override
                         public void onClick(View v) {
                             Intent intent = new Intent(context, PlayerActivity.class);
-                            intent.putExtra("position", position);
+                            intent.putExtra(ListFragment.ARG_POSITION, position);
+                            intent.putExtra(ListFragment.ARG_LIST_TYPE, flag);
                             context.startActivity(intent);
                         }
                     });

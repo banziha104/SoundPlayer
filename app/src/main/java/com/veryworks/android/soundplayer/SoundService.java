@@ -6,8 +6,9 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.IBinder;
-import android.support.v4.app.NotificationCompat;
+import android.support.v7.app.NotificationCompat;
 
 import static android.app.PendingIntent.getService;
 
@@ -38,7 +39,18 @@ public class SoundService extends Service {
 
     // 1. 미디어 플레이어 기본값 설정
     private void initMedia() {
+        // 음원 uri
+        Uri musicUri = null; //TODO datas.get(position).music_uri;
 
+        // 플레이어에 음원 세팅
+        mMediaPlayer = MediaPlayer.create(this, musicUri);
+        mMediaPlayer.setLooping(false); // 반복여부
+        mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                //TODO next();
+            }
+        });
     }
 
     // 2. 명령어 실행
@@ -61,7 +73,6 @@ public class SoundService extends Service {
         }
     }
 
-    // Notification.Action -> API Level 19
     // Activity 에서의 클릭 버튼 생성
     private NotificationCompat.Action generateAction(int icon, String title, String intentAction ) {
         Intent intent = new Intent( getApplicationContext(), SoundService.class );
@@ -100,7 +111,6 @@ public class SoundService extends Service {
         // 노티바를 화면에 보여준다
         notificationManager.notify(1, builder.build());
     }
-
 
     private void playerStart(){
         // 노티피케이션 바 생성

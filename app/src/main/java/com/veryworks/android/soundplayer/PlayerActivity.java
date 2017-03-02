@@ -38,6 +38,8 @@ public class PlayerActivity extends AppCompatActivity {
 
     // 현재 음원 index
     int position = 0;
+    // 리스트 타입
+    String list_type = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +83,8 @@ public class PlayerActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if(intent != null){
             Bundle bundle = intent.getExtras();
-            position = bundle.getInt("position");
+            list_type = bundle.getString( ListFragment.ARG_LIST_TYPE );
+            position = bundle.getInt( ListFragment.ARG_POSITION );
             // 첫페이지일 경우만 init 호출
             // 이유 : 첫페이지가 아닐경우 위의 setCurrentItem 에 의해서 ViewPager의 onPageSelected가 호출된다.
             if(position == 0) {
@@ -111,16 +114,7 @@ public class PlayerActivity extends AppCompatActivity {
     }
 
     private void playerInit(){
-        Uri musicUri = datas.get(position).music_uri;
-        // 플레이어에 음원 세팅
-        player = MediaPlayer.create(this, musicUri);
-        player.setLooping(false); // 반복여부
-        player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                next();
-            }
-        });
+
     }
 
     private void controllerInit(){
