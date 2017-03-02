@@ -5,7 +5,7 @@
     android:id="@+id/activity_player"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.veryworks.android.musicplayer.PlayerActivity">
+    tools:context="com.veryworks.android.soundplayer.PlayerActivity">
 
     <android.support.v4.view.ViewPager
         android:layout_width="match_parent"
@@ -36,7 +36,7 @@
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@android:drawable/ic_media_ff"
+            app:srcCompat="@android:drawable/ic_media_next"
             android:id="@+id/btnFf"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/btnPlay"
@@ -47,7 +47,7 @@
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@android:drawable/ic_media_rew"
+            app:srcCompat="@android:drawable/ic_media_previous"
             android:id="@+id/btnRew"
             android:layout_marginRight="30dp"
             android:layout_marginEnd="30dp"

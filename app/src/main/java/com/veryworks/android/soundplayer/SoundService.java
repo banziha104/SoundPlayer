@@ -10,6 +10,11 @@ import android.net.Uri;
 import android.os.IBinder;
 import android.support.v7.app.NotificationCompat;
 
+import com.veryworks.android.soundplayer.domain.Sound;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import static android.app.PendingIntent.getService;
 
 public class SoundService extends Service {
@@ -22,6 +27,10 @@ public class SoundService extends Service {
     public static final String ACTION_STOP = "action_stop";
 
     public static MediaPlayer mMediaPlayer = null;
+    public static String listType = "";
+    public static int position = -1;
+
+    List<Sound> datas = new ArrayList<>();
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -30,17 +39,32 @@ public class SoundService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        if(intent != null) {
+            listType = intent.getExtras().getString(ListFragment.ARG_LIST_TYPE);
+            position = intent.getExtras().getInt(ListFragment.ARG_POSITION);
+        }
+
         if(mMediaPlayer == null) {
             initMedia();
         }
-        handleIntent(intent);
+        handleAction(intent);
         return super.onStartCommand(intent, flags, startId);
     }
 
     // 1. 미디어 플레이어 기본값 설정
     private void initMedia() {
+        if(datas.size() < 1){
+            switch(listType){
+                case ListFragment.TYPE_SONG :
+                    datas = DataLoader.getSounds(getBaseContext());
+                    break;
+                case ListFragment.TYPE_ARTIST :
+            }
+
+        }
+
         // 음원 uri
-        Uri musicUri = null; //TODO datas.get(position).music_uri;
+        Uri musicUri = datas.get(position).music_uri; //TODO datas.get(position).music_uri;
 
         // 플레이어에 음원 세팅
         mMediaPlayer = MediaPlayer.create(this, musicUri);
@@ -54,7 +78,7 @@ public class SoundService extends Service {
     }
 
     // 2. 명령어 실행
-    private void handleIntent( Intent intent ) {
+    private void handleAction( Intent intent ) {
         if( intent == null || intent.getAction() == null )
             return;
 

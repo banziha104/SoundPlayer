@@ -29,8 +29,13 @@ public class Artist extends Common{
     }
 
     @Override
-    public String getDuration() {
-        return "";
+    public int getDuration() {
+        return 0;
+    }
+
+    @Override
+    public String getDurationText() {
+        return null;
     }
 
     @Override

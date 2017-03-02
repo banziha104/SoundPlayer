@@ -62,7 +62,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 
         switch(flag){
             case ListFragment.TYPE_SONG:
-                holder.textDuration.setText(common.getDuration());
+                holder.textDuration.setText(common.getDurationText());
                 break;
             case ListFragment.TYPE_ALBUM:
             case ListFragment.TYPE_GENRE:

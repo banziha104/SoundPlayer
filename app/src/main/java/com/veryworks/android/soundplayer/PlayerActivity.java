@@ -17,6 +17,7 @@ import java.util.List;
 public class PlayerActivity extends AppCompatActivity {
     // 음악 데이터
     List<Sound> datas;
+    int position = -1; // 현재 음원
     // 뷰페이저
     ViewPager viewPager;
     PlayerAdapter adapter;
@@ -67,7 +68,7 @@ public class PlayerActivity extends AppCompatActivity {
         if(intent != null){
             Bundle bundle = intent.getExtras();
             list_type = bundle.getString( ListFragment.ARG_LIST_TYPE );
-            int position = bundle.getInt( ListFragment.ARG_POSITION );
+            position = bundle.getInt( ListFragment.ARG_POSITION );
             // 첫페이지일 경우만 init 호출
             // 이유 : 첫페이지가 아닐경우 위의 setCurrentItem 에 의해서 ViewPager의 onPageSelected가 호출된다.
             if(position == 0) {
@@ -81,31 +82,27 @@ public class PlayerActivity extends AppCompatActivity {
 
     // 컨트롤러 정보 초기화
     private void init(){
-
+        playerInit();
+        controllerInit();
     }
 
     private void playerInit(){
-
+        // 서비스로 이관
     }
 
     private void controllerInit(){
-
+        Sound sound = datas.get(position);
+        txtCurrent.setText("0");
+        txtDuration.setText(sound.getDurationText());
+        seekBar.setMax(sound.getDuration());
     }
 
     private void play() {
-
-    }
-
-    private void playStop(){
-
-    }
-
-    private void playPlay(){
-
-    }
-
-    private void playPause(){
-
+        Intent intent = new Intent(this, SoundService.class);
+        intent.setAction(SoundService.ACTION_PLAY);
+        intent.putExtra(ListFragment.ARG_POSITION, position);
+        intent.putExtra(ListFragment.ARG_LIST_TYPE,list_type);
+        startService(intent);
     }
 
     private void prev() {

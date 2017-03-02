@@ -18,7 +18,12 @@ public class Album extends Common {
     }
 
     @Override
-    public String getDuration() {
+    public int getDuration() {
+        return 0;
+    }
+
+    @Override
+    public String getDurationText() {
         return null;
     }
 
