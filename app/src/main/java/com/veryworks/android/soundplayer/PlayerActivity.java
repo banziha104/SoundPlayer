@@ -14,7 +14,7 @@ import com.veryworks.android.soundplayer.domain.Sound;
 
 import java.util.List;
 
-public class PlayerActivity extends AppCompatActivity {
+public class PlayerActivity extends AppCompatActivity implements ControlInterface {
     // 음악 데이터
     List<Sound> datas;
     int position = -1; // 현재 음원
@@ -27,6 +27,8 @@ public class PlayerActivity extends AppCompatActivity {
     TextView txtDuration,txtCurrent;
     // 리스트 타입
     String list_type = "";
+
+    Controller controller;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +80,9 @@ public class PlayerActivity extends AppCompatActivity {
                 viewPager.setCurrentItem(position);
             }
         }
+
+        controller = Controller.getInstance();
+        controller.addObserver(this);
     }
 
     // 컨트롤러 정보 초기화
@@ -130,6 +135,22 @@ public class PlayerActivity extends AppCompatActivity {
             }
         }
     };
+
+    @Override
+    public void startPlayer() {
+        btnPlay.setImageResource(android.R.drawable.ic_media_pause);
+    }
+
+    @Override
+    public void pausePlayer() {
+        btnPlay.setImageResource(android.R.drawable.ic_media_play);
+    }
+
+    @Override
+    protected void onDestroy(){
+        controller.remove(this);
+        super.onDestroy();
+    }
 }
 
 

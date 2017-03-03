@@ -17,7 +17,7 @@ import java.util.List;
 
 import static android.app.PendingIntent.getService;
 
-public class SoundService extends Service {
+public class SoundService extends Service implements ControlInterface {
     private static final String TAG = "SoundService";
 
     private static final int NOTIFICATION_ID = 1;
@@ -33,6 +33,11 @@ public class SoundService extends Service {
     public static int position = -1;
 
     List<Sound> datas = new ArrayList<>();
+    Controller controller;
+    public SoundService(){
+        controller = Controller.getInstance();
+        controller.addObserver(this);
+    }
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -88,10 +93,9 @@ public class SoundService extends Service {
 
         String action = intent.getAction();
         if( action.equalsIgnoreCase( ACTION_PLAY ) ) {
-            // 음원처리
-            playerStart();
+            controller.play();
         } else if( action.equalsIgnoreCase( ACTION_PAUSE ) ) {
-
+            controller.pause();
         } else if( action.equalsIgnoreCase( ACTION_PREVIOUS ) ) {
 
         } else if( action.equalsIgnoreCase( ACTION_NEXT ) ) {
@@ -148,6 +152,11 @@ public class SoundService extends Service {
         mMediaPlayer.start();
     }
 
+    private void playerPause(){
+        buildNotification( generateAction( android.R.drawable.ic_media_play, "Play", ACTION_PLAY ), ACTION_PLAY );
+        mMediaPlayer.pause();
+    }
+
     private void playerStop(){
         if(mMediaPlayer != null) {
             mMediaPlayer.release();
@@ -157,5 +166,21 @@ public class SoundService extends Service {
         notificationManager.cancel( NOTIFICATION_ID );
         Intent intent = new Intent( getApplicationContext(), SoundService.class );
         stopService( intent );
+    }
+
+    @Override
+    public void startPlayer() {
+        playerStart();
+    }
+
+    @Override
+    public void pausePlayer() {
+        playerPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        controller.remove(this);
+        super.onDestroy();
     }
 }
