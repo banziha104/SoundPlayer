@@ -65,9 +65,7 @@ builder.addAction(generateAction(android.R.drawable.ic_media_next, "Next", ACTIO
 startForeground(NOTIFICATION_ID, builder.build());
 ```
 
-
-
-
+### Screen Capture
 ![Music List](https://raw.githubusercontent.com/javafa/-2nd-Project-SoundPlayer/master/screenCaptures/list.png "list")
 ![Album List](https://raw.githubusercontent.com/javafa/-2nd-Project-SoundPlayer/master/screenCaptures/album.png "album")
 ![Player](https://raw.githubusercontent.com/javafa/-2nd-Project-SoundPlayer/master/screenCaptures/player.png "player")
